@@ -1,6 +1,6 @@
 import { Logger } from '@/utils/Logger.ts';
 import { ArgsOf, Discord, On } from "discordx";
-import { CustomClient } from "@/classes/CustomClient.ts";
+import { CustomClient } from "@/client.ts";
 import chalk from "chalk";
 
 @Discord()

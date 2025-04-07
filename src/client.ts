@@ -1,47 +1,71 @@
 import { Logger } from '@/utils/Logger.ts';
 import { dirname, importx } from '@discordx/importer'
 import { IntentsBitField } from "discord.js";
-import { CustomClient } from "@/classes/CustomClient.ts";
 import { ClusterClient, getInfo } from "discord-hybrid-sharding";
 import chalk from 'chalk'
+import { Client, ClientOptions } from "discordx";
+import { Surreal } from "@surrealdb/surrealdb";
 
-export class BotClient {
-  private static _client: CustomClient;
+export class CustomClient extends Client {
+  private static _instance: CustomClient;
+  public cluster?: ClusterClient<CustomClient>;
+  public db: Surreal;
 
-  static get client() {
-    return this._client;
+  private constructor(options: ClientOptions) {
+    super(options);
+    this.db = new Surreal();
   }
 
-  static async isDBAlive(): Promise<boolean> {
+  static getInstance(): CustomClient {
+    return this._instance;
+  }
+
+  public async isDBAlive(): Promise<boolean> {
     try {
-      await this._client.db.query("RETURN true");
+      await this.db.query("RETURN true");
       return true;
     } catch (_e) {
+      Logger.error("Database health check failed");
       return false;
     }
   }
 
-  static async connectDB(): Promise<boolean> {
+  public async connectDB(): Promise<boolean> {
+    const {
+      SURREALDB_URL,
+      SURREALDB_NAMESPACE,
+      SURREALDB_DATABASE,
+      SURREALDB_USERNAME,
+      SURREALDB_PASSWORD
+    } = Deno.env.toObject();
+
     try {
-      await this._client.db.connect(Deno.env.get('SURREALDB_URL') as string);
-      await this._client.db.use({
-        namespace: Deno.env.get('SURREALDB_NAMESPACE') as string,
-        database: Deno.env.get('SURREALDB_DATABASE') as string,
+      await this.db.connect(SURREALDB_URL);
+      await this.db.use({
+        namespace: SURREALDB_NAMESPACE,
+        database: SURREALDB_DATABASE,
       });
-      await this._client.db.signin({
-        username: Deno.env.get('SURREALDB_USERNAME') as string,
-        password: Deno.env.get('SURREALDB_PASSWORD') as string,
+      await this.db.signin({
+        username: SURREALDB_USERNAME,
+        password: SURREALDB_PASSWORD,
       });
-      Logger.success(`Connected to SurrealDB!\n${chalk.gray("📁 Namespace")}: ${chalk.yellow(Deno.env.get("SURREALDB_NAMESPACE"))}\n${chalk.gray("📦 Database")}: ${chalk.yellow(Deno.env.get("SURREALDB_DATABASE"))}`);
+
+      Logger.success(
+        `Connected to SurrealDB!\n${chalk.gray("📁 Namespace")}: ${chalk.yellow(SURREALDB_NAMESPACE)}\n${chalk.gray("📦 Database")}: ${chalk.yellow(SURREALDB_DATABASE)}`
+      );
       return true;
-    } catch (e) {
-      Logger.error(JSON.stringify(e));
+    } catch (error) {
+      Logger.error(`Database connection failed: ${error instanceof Error ? error.message : String(error)}`);
       return false;
     }
   }
 
-  static async start() {
-    const _client = new CustomClient({
+  static async initialize(): Promise<void> {
+    if (this._instance) {
+      throw new Error('CustomClient is already initialized');
+    }
+
+    const client = new CustomClient({
       intents: [
         IntentsBitField.Flags.Guilds,
         IntentsBitField.Flags.GuildVoiceStates,
@@ -50,11 +74,23 @@ export class BotClient {
       shards: getInfo().SHARD_LIST,
       shardCount: getInfo().TOTAL_SHARDS
     });
-    await importx(dirname(import.meta.url) + '/{events,commands}/**/*.{ts,js}');
-     _client.cluster = new ClusterClient(_client);
-    await _client.login(Deno.env.get('BOT_TOKEN') as string);
-    await this.connectDB();
+
+    this._instance = client;
+
+    try {
+      await importx(dirname(import.meta.url) + '/{events,commands}/**/*.{ts,js}');
+      client.cluster = new ClusterClient(client);
+      
+      await this._instance.connectDB();
+
+      await client.login(Deno.env.get('BOT_TOKEN') as string);
+      Logger.success('Bot successfully initialized and logged in');
+    } catch (error) {
+      Logger.error(`Initialization failed: ${error instanceof Error ? error.message : String(error)}`);
+      throw error;
+    }
   }
 }
 
-BotClient.start();
+// Initialize the bot
+CustomClient.initialize()

@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import { Discord, Once } from "discordx";
-import { CustomClient } from "@/classes/CustomClient.ts";
+import { CustomClient } from "@/client.ts";
 import { Logger } from "@/utils/Logger.ts";
 
 @Discord()

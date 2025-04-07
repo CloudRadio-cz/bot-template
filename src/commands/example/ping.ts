@@ -1,6 +1,6 @@
 import { Discord, Slash } from 'discordx'
 import { CommandInteraction } from "discord.js";
-import { CustomClient } from "@/classes/CustomClient.ts";
+import { CustomClient } from "@/client.ts";
 import { jsonify } from "@surrealdb/surrealdb";
 
 interface User {
@@ -14,11 +14,6 @@ interface User {
 export class Ping {
   @Slash({ name: "ping", description: 'Ping!' })
   async ping(interaction: CommandInteraction, client: CustomClient) {
-      //if(!client.isDBAlive()) return interaction.reply('DB is not alive!')
-      client.db.query('SELECT * FROM user')
-      .then((res) => {
-        console.log(res)
-        interaction.reply('Pong!')
-      })
+      if(!await client.isDBAlive()) return console.log(await client.connectDB())
   }
 }
