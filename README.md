@@ -107,6 +107,10 @@ This will start the bot without hot reloading.
     ├── commands/        # Bot commands
     │   └── example/     # Example commands
     ├── events/          # Discord event handlers
+    ├── lang/            # Translation files
+    │   ├── cs.json      # Czech translations
+    │   ├── en.json      # English translations
+    │   └── index.ts     # Translation system implementation
     └── utils/           # Utility functions
         └── Logger.ts    # Custom logger
 ```
