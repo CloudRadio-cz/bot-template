@@ -13,7 +13,7 @@ A modern Discord bot template built with Deno, Discord.js, and SurrealDB integra
 
 ## Prerequisites
 
-- [Deno](https://deno.land/) (v1.37.0 or higher)
+- [Deno](https://deno.land/) (v2.0.0 or higher)
 - [SurrealDB](https://surrealdb.com/) (v1.0.0 or higher)
 - Discord Bot Token ([Discord Developer Portal](https://discord.com/developers/applications))
 
@@ -42,11 +42,11 @@ Download and install SurrealDB from the [official website](https://surrealdb.com
 
 #### Option 2: Using Docker
 
-```bash
-docker run --name surrealdb -p 3000:3000 surrealdb/surrealdb:latest start --user root --pass root --auth
-```
+Check the official SurrealDB documentation for Docker installation instructions: [SurrealDB Docker Instructions](https://surrealdb.com/docs/surrealdb/installation/running/docker)
 
 ### Starting SurrealDB
+
+#### Option 1: Manual startup
 
 Start SurrealDB with the following command:
 
@@ -55,6 +55,10 @@ surrealdb start --user root --pass root --bind 127.0.0.1:3000 rocksdb:main.db
 ```
 
 By default, SurrealDB will run on `http://127.0.0.1:3000/rpc`.
+
+#### Option 2: Using Docker
+
+Check the official SurrealDB documentation for Docker installation and running instructions: [SurrealDB Docker Instructions](https://surrealdb.com/docs/surrealdb/installation/running/docker)
 
 ### Configuring the Bot to Use SurrealDB
 
@@ -71,6 +75,8 @@ SURREALDB_PASSWORD="root"
 
 ## Running the Bot
 
+### Development Mode
+
 Start the bot in development mode:
 
 ```bash
@@ -78,6 +84,16 @@ deno task dev
 ```
 
 This will start the bot with hot reloading enabled.
+
+### Production Mode
+
+Start the bot in production mode:
+
+```bash
+deno task start
+```
+
+This will start the bot without hot reloading.
 
 ## Project Structure
 
