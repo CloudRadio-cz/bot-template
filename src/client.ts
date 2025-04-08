@@ -5,6 +5,7 @@ import { ClusterClient, getInfo } from "discord-hybrid-sharding";
 import chalk from 'chalk'
 import { Client, ClientOptions } from "discordx";
 import { Surreal } from "@surrealdb/surrealdb";
+import { loadLocales } from "@/lang/index.ts";
 
 export class CustomClient extends Client {
   private static _instance: CustomClient;
@@ -40,12 +41,13 @@ export class CustomClient extends Client {
     } = Deno.env.toObject();
 
     try {
-      await this.db.connect(SURREALDB_URL);
-      await this.db.use({
+      await this.db.connect(SURREALDB_URL, {
         namespace: SURREALDB_NAMESPACE,
         database: SURREALDB_DATABASE,
       });
       await this.db.signin({
+        namespace: SURREALDB_NAMESPACE,
+        database: SURREALDB_DATABASE,
         username: SURREALDB_USERNAME,
         password: SURREALDB_PASSWORD,
       });
@@ -84,7 +86,8 @@ export class CustomClient extends Client {
       await this._instance.connectDB();
 
       await client.login(Deno.env.get('BOT_TOKEN') as string);
-      Logger.success('Bot successfully initialized and logged in');
+      await loadLocales();
+      Logger.success('Bot successfully initialized!');
     } catch (error) {
       Logger.error(`Initialization failed: ${error instanceof Error ? error.message : String(error)}`);
       throw error;
