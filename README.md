@@ -8,6 +8,7 @@ A modern Discord bot template built with Deno, Discord.js, and SurrealDB integra
 - 💾 SurrealDB integration for flexible data storage
 - 🔄 Discord Hybrid Sharding for scalability
 - 🧩 Command handler using decorators with discordx
+- 🌐 Built-in translation system with support for multiple languages
 - 📝 TypeScript support for better code quality
 - 🎨 Beautiful console logging with chalk
 
