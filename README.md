@@ -271,13 +271,13 @@ import { CustomClient } from "@/client.ts";
 
 interface User {
   username: string;
-  email: string;
+  money: number;
   [key: string]: unknown;
 }
 
 @Discord()
 export class UserCommand {
-  @Slash({ name: "create-user", description: 'Create a new user' })
+  @Slash({ name: "ping", description: 'ping' })
   async createUser(interaction: CommandInteraction, client: CustomClient) {
     // Check if DB is connected
     if(!await client.isDBAlive()) {
@@ -287,7 +287,7 @@ export class UserCommand {
     // Create a new user
     const user: User = {
       username: "example",
-      email: "example@example.com"
+      money: 5
     };
     
     const result = await client.db.create("user", user);

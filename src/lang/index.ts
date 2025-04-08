@@ -11,7 +11,6 @@ const availableLangs: string[] = [];
 
 export async function loadLocales(): Promise<void> {
   try {
-    // Get the current file's directory path using Deno's path utilities
     const currentFilePath = fromFileUrl(import.meta.url);
     const langDir = dirname(currentFilePath);
     

@@ -95,5 +95,4 @@ export class CustomClient extends Client {
   }
 }
 
-// Initialize the bot
 CustomClient.initialize()
