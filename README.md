@@ -133,6 +133,8 @@ export class Ping {
 }
 ```
 
+For more information on creating command and or more advanced usage, refer to the official [discordx documentation](https://discordx.js.org/).
+
 ## Translation System
 
 This template includes a built-in translation system that supports multiple languages. The system allows you to define translation keys in JSON files and use them in your code with variable substitution.
@@ -159,7 +161,7 @@ Example of `cs.json`:
 {
   "ping.reply": "🏓 Pong! Bot je naživu!",
   "user.welcome": "Vítej, {username}!",
-  "db.error": "{username}, ❌ Databáze není dostupná. Zkuste {test2} to prosím později. {test}"
+  "db.error": "❌ Databáze není dostupná. Zkuste to prosím později."
 }
 ```
 

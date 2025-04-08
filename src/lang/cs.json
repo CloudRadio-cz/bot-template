@@ -1,5 +1,5 @@
 {
   "ping.reply": "🏓 Pong! Bot je naživu!",
   "user.welcome": "Vítej, {username}!",
-  "db.error": "{username}, ❌ Databáze není dostupná. Zkuste {test2} to prosím později. {test}"
+  "db.error": "❌ Databáze není dostupná. Zkuste to prosím později."
 }
