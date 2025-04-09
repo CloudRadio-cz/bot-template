@@ -8,18 +8,25 @@ export class Logger {
   private static formatMessage(level: string, message: string): string {
     const timestamp = chalk.gray.bold(`⌚ ${this.getTimestamp()}`);
     const separator = chalk.gray(' │ ');
-    const prefix = `${timestamp}${separator}${level} ${chalk.gray.bold("❱")} `;
-    const indentLength = Math.max(0, prefix.length - 57);
-    const indent = ' '.repeat(indentLength);
-    
+    const arrow = chalk.gray.bold("❱");
+    const prefix = `${timestamp}${separator}${level} ${arrow} `;
+  
+    const visiblePrefix = prefix.replace(
+      // deno-lint-ignore no-control-regex
+      /\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])/g,
+      ''
+    );
+    const indent = ' '.repeat(visiblePrefix.length + 1);
+  
     const lines = message.split('\n');
     const decoratedLines = lines.map((line, index) => {
       const linePrefix = index === 0 ? prefix : indent;
       return `${linePrefix}${line}`;
     });
-    
-    return `${decoratedLines.join('\n')}`;
+  
+    return decoratedLines.join('\n');
   }
+  
 
   static info(message: string): void {
     console.log(
