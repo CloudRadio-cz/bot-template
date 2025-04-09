@@ -66,12 +66,41 @@ export class Logger {
     );
   }
 
-  static command(message: string): void {
-    console.log(
-      this.formatMessage(
-        chalk.yellowBright("CMD"),
-        chalk.white(message)
-      )
-    );
+  static command(options: {
+    username?: string;
+    userId?: string;
+    commandName: string;
+    guildName?: string;
+    guildId?: string;
+    shardId?: number;
+    clusterId?: number;
+  }): void;
+  static command(messageOrOptions: string | {
+    username?: string;
+    userId?: string;
+    commandName: string;
+    guildName?: string;
+    guildId?: string;
+    shardId?: number;
+    clusterId?: number;
+  }): void {
+    if (typeof messageOrOptions === 'string') {
+      console.log(
+        this.formatMessage(
+          chalk.yellowBright("CMD"),
+          chalk.white(messageOrOptions)
+        )
+      );
+    } else {
+      const { username, userId, commandName, guildName, guildId, shardId, clusterId } = messageOrOptions;
+      const message = `${chalk.gray("👤 User")}: ${chalk.yellow(username)} (${chalk.yellow(userId)})\n${chalk.gray("🔧 Command")}: ${chalk.yellow(commandName)}\n${chalk.gray("🏠 Guild")}: ${chalk.yellow(guildName)} (${chalk.yellow(guildId)})\n${chalk.gray("♦️  Shard")}: ${chalk.yellow(shardId)} (${chalk.yellow(clusterId)})`;
+      
+      console.log(
+        this.formatMessage(
+          chalk.yellowBright("CMD"),
+          chalk.white(message)
+        )
+      );
+    }
   }
 }
