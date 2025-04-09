@@ -9,7 +9,8 @@ export class Logger {
     const timestamp = chalk.gray.bold(`⌚ ${this.getTimestamp()}`);
     const separator = chalk.gray(' │ ');
     const prefix = `${timestamp}${separator}${level} ${chalk.gray.bold("❱")} `;
-    const indent = ' '.repeat(prefix.length - 57);
+    const indentLength = Math.max(0, prefix.length - 57);
+    const indent = ' '.repeat(indentLength);
     
     const lines = message.split('\n');
     const decoratedLines = lines.map((line, index) => {
