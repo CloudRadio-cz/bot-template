@@ -296,6 +296,13 @@ export class UserCommand {
 }
 ```
 
+## To-Do
+
+- [x] Add translation system
+- [x] Improve logging system
+- [ ] Add more example commands and use cases
+- [ ] Create deployment guides for popular hosting platforms
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
