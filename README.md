@@ -300,6 +300,7 @@ export class UserCommand {
 
 - [x] Add translation system
 - [x] Improve logging system
+- [ ] Add comments to the code for better understanding of the code and maintenance
 - [ ] Add more example commands and use cases
 - [ ] Create deployment guides for popular hosting platforms
 
