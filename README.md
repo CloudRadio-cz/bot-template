@@ -296,6 +296,8 @@ export class UserCommand {
 }
 ```
 
+For more information on using SurrealDB SDK, refer to the official [SurrealDB JavaScript SDK Documentation](https://surrealdb.com/docs/sdk/javascript)
+
 ## To-Do
 
 - [x] Add translation system
