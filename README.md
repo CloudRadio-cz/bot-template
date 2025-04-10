@@ -115,8 +115,14 @@ This will start the bot without hot reloading.
     │   └── example/     # Example commands
     ├── events/          # Discord event handlers
     ├── lang/            # Translation files
-    │   ├── cs.json      # Czech translations
-    │   ├── en.json      # English translations
+    │   ├── cs/          # Czech translations folder
+    │   │   ├── ping.json  # Category-specific translations
+    │   │   ├── user.json  # Category-specific translations
+    │   │   └── db.json    # Category-specific translations
+    │   ├── en/          # English translations folder
+    │   │   ├── ping.json  # Category-specific translations
+    │   │   ├── user.json  # Category-specific translations
+    │   │   └── db.json    # Category-specific translations
     │   └── index.ts     # Translation system implementation
     └── utils/           # Utility functions
         └── Logger.ts    # Custom logger
@@ -152,36 +158,51 @@ use them in your code with variable substitution.
 
 ### How It Works
 
-Translation files are stored in the `src/lang/` directory as JSON files (one per
-language). The system currently supports English (`en.json`) and Czech
-(`cs.json`). The translation system is automatically initialized when the bot
-starts up.
+Translation files are organized in the `src/lang/` directory using a
+folder-based structure. Each language has its own folder (e.g., `en/`, `cs/`),
+and within each language folder, translations are split into multiple JSON files
+by category. The system currently supports English and Czech. The translation
+system is automatically initialized when the bot starts up.
 
-Each language file is a simple JSON object where:
+Each category file is a simple JSON object where:
 
-- Keys are unique identifiers for text strings (e.g., `"ping.reply"`,
-  `"user.welcome"`)
-- Values are the translated text for that language
+- The filename represents the category (e.g., `ping.json`, `user.json`,
+  `db.json`)
+- Keys within the file are identifiers for text strings in that category
+- Values are the translated text for that language and category
 
-Example of `en.json`:
+Example folder structure:
+
+```
+src/lang/
+  ├── en/
+  │   ├── ping.json
+  │   ├── user.json
+  │   └── db.json
+  └── cs/
+      ├── ping.json
+      ├── user.json
+      └── db.json
+```
+
+Example of `en/ping.json`:
 
 ```json
 {
-  "ping.reply": "🏓 Pong! Bot is alive!",
-  "user.welcome": "Welcome, {username}!",
-  "db.error": "❌ Database is not reachable. Please try again later."
+  "reply": "🏓 Pong! Bot is alive!"
 }
 ```
 
-Example of `cs.json`:
+Example of `cs/ping.json`:
 
 ```json
 {
-  "ping.reply": "🏓 Pong! Bot je naživu!",
-  "user.welcome": "Vítej, {username}!",
-  "db.error": "❌ Databáze není dostupná. Zkuste to prosím později."
+  "reply": "🏓 Pong! Bot je naživu!"
 }
 ```
+
+When accessing translations in code, you still use the dot notation format:
+`category.key` (e.g., `ping.reply`, `user.welcome`)
 
 ### Using Translations
 
@@ -214,12 +235,8 @@ For example:
 // English: "Welcome, {username}!"
 t("user.welcome", "en", { username: "John" }); // Returns "Welcome, John!"
 
-// Czech: "{username}, ❌ Databáze není dostupná. Zkuste {test2} to prosím později. {test}"
-t("db.error", "cs", {
-  username: "John",
-  test: "value1",
-  test2: "value2",
-}); // Returns "John, ❌ Databáze není dostupná. Zkuste value2 to prosím později. value1"
+// Czech: "Vítej, {username}!"
+t("user.welcome", "cs", { username: "Jan" }); // Returns "Vítej, Jan!"
 ```
 
 ### Example in Commands
@@ -264,11 +281,13 @@ const languages = getAvailableLanguages(); // Returns ["en", "cs"]
 
 To add a new language:
 
-1. Create a new JSON file in the `src/lang/` directory with the language code as
-   the filename (e.g., `fr.json` for French)
-2. Add all the translation keys and their translated values to the file
-3. The system will automatically detect and load the new language file when the
-   bot starts
+1. Create a new folder in the `src/lang/` directory with the language code as
+   the folder name (e.g., `fr/` for French)
+2. Create JSON files for each category (e.g., `ping.json`, `user.json`,
+   `db.json`) in the language folder
+3. Add the translated values to each category file
+4. The system will automatically detect and load the new language folder when
+   the bot starts
 
 ### Adding New Translation Keys
 

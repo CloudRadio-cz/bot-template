@@ -2,7 +2,7 @@ import chalk from "chalk";
 import { Logger } from "@/utils/Logger.ts";
 import { dirname, fromFileUrl, join, toFileUrl } from "@std/path";
 
-type TranslationMap = Record<string, string>;
+type TranslationMap = Record<string, Record<string, string>>;
 
 const translations: Record<string, TranslationMap> = {};
 const fallbackLang = "en";
@@ -17,18 +17,34 @@ export async function loadLocales(): Promise<void> {
     Logger.info(`Loading language files from: ${langDir}`);
 
     try {
-      const files = Deno.readDir(langDir);
+      const langFolders = Deno.readDir(langDir);
 
-      for await (const file of files) {
-        if (file.isFile && file.name.endsWith(".json")) {
-          const lang = file.name.replace(/\.json$/, "");
-          const path = join(langDir, file.name);
-          const module = await import(toFileUrl(path).href, {
-            with: { type: "json" },
-          });
+      for await (const folder of langFolders) {
+        if (folder.isDirectory) {
+          const lang = folder.name;
+          const langFolderPath = join(langDir, lang);
 
-          translations[lang] = module.default;
-          availableLangs.push(lang);
+          if (!translations[lang]) {
+            translations[lang] = {};
+          }
+
+          const categoryFiles = Deno.readDir(langFolderPath);
+
+          for await (const file of categoryFiles) {
+            if (file.isFile && file.name.endsWith(".json")) {
+              const category = file.name.replace(/\.json$/, "");
+              const path = join(langFolderPath, file.name);
+              const module = await import(toFileUrl(path).href, {
+                with: { type: "json" },
+              });
+
+              translations[lang][category] = module.default;
+            }
+          }
+
+          if (!availableLangs.includes(lang)) {
+            availableLangs.push(lang);
+          }
         }
       }
 
@@ -64,8 +80,17 @@ export function t(
   lang = fallbackLang,
   vars?: Record<string, string | number>,
 ): string {
-  const translation = translations[lang]?.[key] ??
-    translations[fallbackLang]?.[key] ??
+  const [category, actualKey] = key.split(".");
+
+  if (!category || !actualKey) {
+    Logger.warn(
+      `[i18n] Invalid translation key format: ${key}. Expected format: "category.key"`,
+    );
+    return key;
+  }
+
+  const translation = translations[lang]?.[category]?.[actualKey] ??
+    translations[fallbackLang]?.[category]?.[actualKey] ??
     key;
 
   if (!vars) return translation;

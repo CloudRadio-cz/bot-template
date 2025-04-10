@@ -6,6 +6,6 @@ import { t } from "@/lang/index.ts";
 export class Ping {
   @Slash({ name: "ping", description: "Pong!" })
   ping(interaction: CommandInteraction) {
-    return interaction.reply(t("ping.reply", "en"));
+    return interaction.reply(t("ping.reply", "cs"));
   }
 }

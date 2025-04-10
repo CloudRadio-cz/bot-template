@@ -1,5 +1,0 @@
-{
-  "ping.reply": "🏓 Pong! Bot is alive!",
-  "user.welcome": "Welcome, {username}!",
-  "db.error": "❌ Database is not reachable. Please try again later."
-}
