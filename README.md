@@ -1,6 +1,8 @@
 # Discord Bot Template with SurrealDB
 
-A modern Discord bot template built with Deno, Discord.js, and SurrealDB integration. This template provides a solid foundation for creating Discord bots with database persistence.
+A modern Discord bot template built with Deno, Discord.js, and SurrealDB
+integration. This template provides a solid foundation for creating Discord bots
+with database persistence.
 
 ## Features
 
@@ -16,7 +18,8 @@ A modern Discord bot template built with Deno, Discord.js, and SurrealDB integra
 
 - [Deno](https://deno.land/) (v2.0.0 or higher)
 - [SurrealDB](https://surrealdb.com/) (v1.0.0 or higher)
-- Discord Bot Token ([Discord Developer Portal](https://discord.com/developers/applications))
+- Discord Bot Token
+  ([Discord Developer Portal](https://discord.com/developers/applications))
 
 ## Installation
 
@@ -39,11 +42,13 @@ A modern Discord bot template built with Deno, Discord.js, and SurrealDB integra
 
 #### Option 1: Using the installer
 
-Download and install SurrealDB from the [official website](https://surrealdb.com/install).
+Download and install SurrealDB from the
+[official website](https://surrealdb.com/install).
 
 #### Option 2: Using Docker
 
-Check the official SurrealDB documentation for Docker installation instructions: [SurrealDB Docker Instructions](https://surrealdb.com/docs/surrealdb/installation/running/docker)
+Check the official SurrealDB documentation for Docker installation instructions:
+[SurrealDB Docker Instructions](https://surrealdb.com/docs/surrealdb/installation/running/docker)
 
 ### Starting SurrealDB
 
@@ -59,7 +64,9 @@ By default, SurrealDB will run on `http://127.0.0.1:3000/rpc`.
 
 #### Option 2: Using Docker
 
-Check the official SurrealDB documentation for Docker installation and running instructions: [SurrealDB Docker Instructions](https://surrealdb.com/docs/surrealdb/installation/running/docker)
+Check the official SurrealDB documentation for Docker installation and running
+instructions:
+[SurrealDB Docker Instructions](https://surrealdb.com/docs/surrealdb/installation/running/docker)
 
 ### Configuring the Bot to Use SurrealDB
 
@@ -117,37 +124,47 @@ This will start the bot without hot reloading.
 
 ## Creating Commands
 
-Commands are created using decorators from discordx. Here's an example ping command:
+Commands are created using decorators from discordx. Here's an example ping
+command:
 
 ```typescript
-import { Discord, Slash } from 'discordx'
+import { Discord, Slash } from "discordx";
 import { CommandInteraction } from "discord.js";
 import { CustomClient } from "@/client.ts";
 
 @Discord()
 export class Ping {
-  @Slash({ name: "ping", description: 'Ping!' })
+  @Slash({ name: "ping", description: "Ping!" })
   async ping(interaction: CommandInteraction, client: CustomClient) {
-    await interaction.reply('Pong!');
+    await interaction.reply("Pong!");
   }
 }
 ```
 
-For more information on creating command and or more advanced usage, refer to the official [discordx documentation](https://discordx.js.org/).
+For more information on creating command and or more advanced usage, refer to
+the official [discordx documentation](https://discordx.js.org/).
 
 ## Translation System
 
-This template includes a built-in translation system that supports multiple languages. The system allows you to define translation keys in JSON files and use them in your code with variable substitution.
+This template includes a built-in translation system that supports multiple
+languages. The system allows you to define translation keys in JSON files and
+use them in your code with variable substitution.
 
 ### How It Works
 
-Translation files are stored in the `src/lang/` directory as JSON files (one per language). The system currently supports English (`en.json`) and Czech (`cs.json`). The translation system is automatically initialized when the bot starts up.
+Translation files are stored in the `src/lang/` directory as JSON files (one per
+language). The system currently supports English (`en.json`) and Czech
+(`cs.json`). The translation system is automatically initialized when the bot
+starts up.
 
 Each language file is a simple JSON object where:
-- Keys are unique identifiers for text strings (e.g., `"ping.reply"`, `"user.welcome"`)  
+
+- Keys are unique identifiers for text strings (e.g., `"ping.reply"`,
+  `"user.welcome"`)
 - Values are the translated text for that language
 
 Example of `en.json`:
+
 ```json
 {
   "ping.reply": "🏓 Pong! Bot is alive!",
@@ -157,6 +174,7 @@ Example of `en.json`:
 ```
 
 Example of `cs.json`:
+
 ```json
 {
   "ping.reply": "🏓 Pong! Bot je naživu!",
@@ -167,7 +185,8 @@ Example of `cs.json`:
 
 ### Using Translations
 
-To use translations in your code, import the `t` function from the language module:
+To use translations in your code, import the `t` function from the language
+module:
 
 ```typescript
 import { t } from "@/lang/index.ts";
@@ -188,17 +207,18 @@ t("user.welcome", "en", { username: "John" }); // Returns "Welcome, John!"
 
 ### Variable Substitution
 
-The translation system supports variable substitution using curly braces `{}`. For example:
+The translation system supports variable substitution using curly braces `{}`.
+For example:
 
 ```typescript
 // English: "Welcome, {username}!"
 t("user.welcome", "en", { username: "John" }); // Returns "Welcome, John!"
 
 // Czech: "{username}, ❌ Databáze není dostupná. Zkuste {test2} to prosím později. {test}"
-t("db.error", "cs", { 
-  username: "John", 
+t("db.error", "cs", {
+  username: "John",
   test: "value1",
-  test2: "value2" 
+  test2: "value2",
 }); // Returns "John, ❌ Databáze není dostupná. Zkuste value2 to prosím později. value1"
 ```
 
@@ -207,22 +227,22 @@ t("db.error", "cs", {
 Here's how to use translations in a command:
 
 ```typescript
-import { Discord, Slash } from 'discordx'
+import { Discord, Slash } from "discordx";
 import { CommandInteraction } from "discord.js";
 import { CustomClient } from "@/client.ts";
 import { t } from "@/lang/index.ts";
 
 @Discord()
 export class Ping {
-  @Slash({ name: "ping", description: 'Ping!' })
+  @Slash({ name: "ping", description: "Ping!" })
   async ping(interaction: CommandInteraction, client: CustomClient) {
     // Check DB connection with translated error message
-    if(!await client.isDBAlive()) {
-      return interaction.reply(t("db.error", "cs", { 
-        username: interaction.member!.user.username 
+    if (!await client.isDBAlive()) {
+      return interaction.reply(t("db.error", "cs", {
+        username: interaction.member!.user.username,
       }));
     }
-    
+
     // Reply with translated message
     return interaction.reply(t("ping.reply", "cs"));
   }
@@ -231,7 +251,8 @@ export class Ping {
 
 ### Getting Available Languages
 
-You can get a list of all available languages using the `getAvailableLanguages()` function:
+You can get a list of all available languages using the
+`getAvailableLanguages()` function:
 
 ```typescript
 import { getAvailableLanguages } from "@/lang/index.ts";
@@ -243,9 +264,11 @@ const languages = getAvailableLanguages(); // Returns ["en", "cs"]
 
 To add a new language:
 
-1. Create a new JSON file in the `src/lang/` directory with the language code as the filename (e.g., `fr.json` for French)
+1. Create a new JSON file in the `src/lang/` directory with the language code as
+   the filename (e.g., `fr.json` for French)
 2. Add all the translation keys and their translated values to the file
-3. The system will automatically detect and load the new language file when the bot starts
+3. The system will automatically detect and load the new language file when the
+   bot starts
 
 ### Adding New Translation Keys
 
@@ -257,6 +280,7 @@ To add new translations:
 ### Fallback Mechanism
 
 If a translation key is not found in the specified language, the system will:
+
 1. Try to find the key in the fallback language (English by default)
 2. If still not found, return the key itself as the text
 
@@ -265,7 +289,7 @@ If a translation key is not found in the specified language, the system will:
 You can access the SurrealDB instance through the client object:
 
 ```typescript
-import { Discord, Slash } from 'discordx'
+import { Discord, Slash } from "discordx";
 import { CommandInteraction } from "discord.js";
 import { CustomClient } from "@/client.ts";
 
@@ -277,32 +301,34 @@ interface User {
 
 @Discord()
 export class UserCommand {
-  @Slash({ name: "ping", description: 'ping' })
+  @Slash({ name: "ping", description: "ping" })
   async createUser(interaction: CommandInteraction, client: CustomClient) {
     // Check if DB is connected
-    if(!await client.isDBAlive()) {
+    if (!await client.isDBAlive()) {
       await client.connectDB();
     }
-    
+
     // Create a new user
     const user: User = {
       username: "example",
-      money: 5
+      money: 5,
     };
-    
+
     const result = await client.db.create("user", user);
     await interaction.reply(`User created: ${JSON.stringify(result)}`);
   }
 }
 ```
 
-For more information on using SurrealDB SDK, refer to the official [SurrealDB JavaScript SDK Documentation](https://surrealdb.com/docs/sdk/javascript)
+For more information on using SurrealDB SDK, refer to the official
+[SurrealDB JavaScript SDK Documentation](https://surrealdb.com/docs/sdk/javascript)
 
 ## To-Do
 
 - [x] Add translation system
 - [x] Improve logging system
-- [ ] Add comments to the code for better understanding of the code and maintenance
+- [ ] Add comments to the code for better understanding of the code and
+      maintenance
 - [ ] Add more example commands and use cases
 - [ ] Create deployment guides for popular hosting platforms
 
@@ -312,4 +338,5 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the LICENSE file for
+details.

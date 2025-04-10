@@ -1,8 +1,8 @@
-import { Logger } from '@/utils/Logger.ts';
-import { dirname, importx } from '@discordx/importer'
+import { Logger } from "@/utils/Logger.ts";
+import { dirname, importx } from "@discordx/importer";
 import { IntentsBitField } from "discord.js";
 import { ClusterClient, getInfo } from "discord-hybrid-sharding";
-import chalk from 'chalk'
+import chalk from "chalk";
 import { Client, ClientOptions } from "discordx";
 import { Surreal } from "@surrealdb/surrealdb";
 import { loadLocales } from "@/lang/index.ts";
@@ -37,7 +37,7 @@ export class CustomClient extends Client {
       SURREALDB_NAMESPACE,
       SURREALDB_DATABASE,
       SURREALDB_USERNAME,
-      SURREALDB_PASSWORD
+      SURREALDB_PASSWORD,
     } = Deno.env.toObject();
 
     try {
@@ -53,18 +53,24 @@ export class CustomClient extends Client {
       });
 
       Logger.success(
-        `Connected to SurrealDB!\n${chalk.gray("📁 Namespace")}: ${chalk.yellow(SURREALDB_NAMESPACE)}\n${chalk.gray("📦 Database")}: ${chalk.yellow(SURREALDB_DATABASE)}`
+        `Connected to SurrealDB!\n${chalk.gray("📁 Namespace")}: ${
+          chalk.yellow(SURREALDB_NAMESPACE)
+        }\n${chalk.gray("📦 Database")}: ${chalk.yellow(SURREALDB_DATABASE)}`,
       );
       return true;
     } catch (error) {
-      Logger.error(`Database connection failed: ${error instanceof Error ? error.message : String(error)}`);
+      Logger.error(
+        `Database connection failed: ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      );
       return false;
     }
   }
 
   static async initialize(): Promise<void> {
     if (this._instance) {
-      throw new Error('CustomClient is already initialized');
+      throw new Error("CustomClient is already initialized");
     }
 
     const client = new CustomClient({
@@ -74,25 +80,31 @@ export class CustomClient extends Client {
       ],
       silent: true,
       shards: getInfo().SHARD_LIST,
-      shardCount: getInfo().TOTAL_SHARDS
+      shardCount: getInfo().TOTAL_SHARDS,
     });
 
     this._instance = client;
 
     try {
-      await importx(dirname(import.meta.url) + '/{events,commands}/**/*.{ts,js}');
+      await importx(
+        dirname(import.meta.url) + "/{events,commands}/**/*.{ts,js}",
+      );
       client.cluster = new ClusterClient(client);
-      
+
       await this._instance.connectDB();
 
-      await client.login(Deno.env.get('BOT_TOKEN') as string);
+      await client.login(Deno.env.get("BOT_TOKEN") as string);
       await loadLocales();
-      Logger.success('Bot successfully initialized!');
+      Logger.success("Bot successfully initialized!");
     } catch (error) {
-      Logger.error(`Initialization failed: ${error instanceof Error ? error.message : String(error)}`);
+      Logger.error(
+        `Initialization failed: ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      );
       throw error;
     }
   }
 }
 
-CustomClient.initialize()
+CustomClient.initialize();

@@ -1,4 +1,4 @@
-import chalk from 'chalk';
+import chalk from "chalk";
 import { Discord, Once } from "discordx";
 import { CustomClient } from "@/client.ts";
 import { Logger } from "@/utils/Logger.ts";
@@ -10,6 +10,8 @@ export class ReadyEvent {
     [client]: [CustomClient],
   ): Promise<void> {
     await client.initApplicationCommands();
-    Logger.success(`Logged in as ${chalk.yellowBright(client.user?.username)}!`);
+    Logger.success(
+      `Logged in as ${chalk.yellowBright(client.user?.username)}!`,
+    );
   }
 }
