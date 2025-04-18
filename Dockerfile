@@ -8,4 +8,4 @@ RUN deno install
 
 COPY . .
 
-CMD ["task", "start"]
+CMD ["task", "deploy"]
