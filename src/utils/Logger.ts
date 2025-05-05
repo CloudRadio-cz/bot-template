@@ -1,10 +1,26 @@
 import chalk from "chalk";
 
+/**
+ * A utility class for formatted console logging with different log levels and styling.
+ * Provides methods for info, success, warning, error, debug, and command logging.
+ */
 export class Logger {
+  /**
+   * Gets the current timestamp in local time format.
+   * @private
+   * @returns {string} Formatted timestamp
+   */
   private static getTimestamp(): string {
     return new Date().toLocaleTimeString();
   }
 
+  /**
+   * Formats a log message with timestamp, level, and styling.
+   * @private
+   * @param {string} level - The log level (e.g., INFO, ERROR)
+   * @param {string} message - The message to format
+   * @returns {string} Formatted log message
+   */
   private static formatMessage(level: string, message: string): string {
     const timestamp = chalk.gray.bold(`⌚ ${this.getTimestamp()}`);
     const separator = chalk.gray(" │ ");
@@ -27,6 +43,10 @@ export class Logger {
     return decoratedLines.join("\n");
   }
 
+  /**
+   * Logs an informational message.
+   * @param {string} message - The message to log
+   */
   static info(message: string): void {
     console.log(
       this.formatMessage(
@@ -36,6 +56,10 @@ export class Logger {
     );
   }
 
+  /**
+   * Logs a success message.
+   * @param {string} message - The message to log
+   */
   static success(message: string): void {
     console.log(
       this.formatMessage(
@@ -45,6 +69,10 @@ export class Logger {
     );
   }
 
+  /**
+   * Logs a warning message.
+   * @param {string} message - The message to log
+   */
   static warn(message: string): void {
     console.warn(
       this.formatMessage(
@@ -54,6 +82,10 @@ export class Logger {
     );
   }
 
+  /**
+   * Logs an error message.
+   * @param {string} message - The message to log
+   */
   static error(message: string): void {
     console.error(
       this.formatMessage(
@@ -63,6 +95,10 @@ export class Logger {
     );
   }
 
+  /**
+   * Logs a debug message.
+   * @param {string} message - The message to log
+   */
   static debug(message: string): void {
     console.debug(
       this.formatMessage(
@@ -72,6 +108,17 @@ export class Logger {
     );
   }
 
+  /**
+   * Logs a command execution with detailed information.
+   * @param {Object} options - Command logging options
+   * @param {string} [options.username] - Username of the command executor
+   * @param {string} [options.userId] - ID of the command executor
+   * @param {string} options.commandName - Name of the executed command
+   * @param {string} [options.guildName] - Name of the guild where command was executed
+   * @param {string} [options.guildId] - ID of the guild where command was executed
+   * @param {number} [options.shardId] - ID of the shard handling the command
+   * @param {number} [options.clusterId] - ID of the cluster handling the command
+   */
   static command(options: {
     username?: string;
     userId?: string;
@@ -81,6 +128,11 @@ export class Logger {
     shardId?: number;
     clusterId?: number;
   }): void;
+  /**
+   * Logs a command execution with a simple message.
+   * @param {string} message - Simple command message to log
+   */
+  static command(message: string): void;
   static command(
     messageOrOptions: string | {
       username?: string;

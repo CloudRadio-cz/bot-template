@@ -7,20 +7,49 @@ import { Client, ClientOptions } from "discordx";
 import { Surreal } from "@surrealdb/surrealdb";
 import { loadLocales } from "@/lang/index.ts";
 
+/**
+ * Custom Discord client with SurrealDB integration and cluster support.
+ * Handles database connectivity, health checks, and bot initialization.
+ * @extends Client
+ */
 export class CustomClient extends Client {
+  /**
+   * Singleton instance of CustomClient.
+   * @type {CustomClient}
+   */
   private static _instance: CustomClient;
+  /**
+   * Cluster client for sharding support.
+   * @type {ClusterClient<CustomClient> | undefined}
+   */
   public cluster?: ClusterClient<CustomClient>;
+  /**
+   * SurrealDB client instance.
+   * @type {Surreal}
+   */
   public db: Surreal;
 
+  /**
+   * Private constructor for singleton pattern.
+   * @param {ClientOptions} options - Discord client options.
+   */
   private constructor(options: ClientOptions) {
     super(options);
     this.db = new Surreal();
   }
 
+  /**
+   * Returns the singleton instance of CustomClient.
+   * @returns {CustomClient}
+   */
   static getInstance(): CustomClient {
     return this._instance;
   }
 
+  /**
+   * Checks if the database connection is alive.
+   * @returns {Promise<boolean>} True if DB is alive, false otherwise.
+   */
   public async isDBAlive(): Promise<boolean> {
     try {
       await this.db.query("RETURN true");
@@ -31,6 +60,10 @@ export class CustomClient extends Client {
     }
   }
 
+  /**
+   * Connects to SurrealDB using environment variables.
+   * @returns {Promise<boolean>} True if connection is successful, false otherwise.
+   */
   public async connectDB(): Promise<boolean> {
     const {
       SURREALDB_URL,
@@ -43,19 +76,22 @@ export class CustomClient extends Client {
     try {
       await this.db.connect(SURREALDB_URL, {
         namespace: SURREALDB_NAMESPACE,
-        database: SURREALDB_DATABASE,
       });
       await this.db.signin({
-        namespace: SURREALDB_NAMESPACE,
-        database: SURREALDB_DATABASE,
         username: SURREALDB_USERNAME,
         password: SURREALDB_PASSWORD,
+        namespace: SURREALDB_NAMESPACE,
+      });
+      await this.db.use({
+        database: SURREALDB_DATABASE,
       });
 
       Logger.success(
-        `Connected to SurrealDB!\n${chalk.gray("📁 Namespace")}: ${
+        `Connected to SurrealDB!\n${chalk.gray("\ud83d\udcc1 Namespace")}: ${
           chalk.yellow(SURREALDB_NAMESPACE)
-        }\n${chalk.gray("📦 Database")}: ${chalk.yellow(SURREALDB_DATABASE)}`,
+        }\n${chalk.gray("\ud83d\udce6 Database")}: ${
+          chalk.yellow(SURREALDB_DATABASE)
+        }`,
       );
       return true;
     } catch (error) {
@@ -68,6 +104,11 @@ export class CustomClient extends Client {
     }
   }
 
+  /**
+   * Initializes the CustomClient singleton, loads commands/events, connects DB, and logs in.
+   * @throws {Error} If already initialized or initialization fails.
+   * @returns {Promise<void>}
+   */
   static async initialize(): Promise<void> {
     if (this._instance) {
       throw new Error("CustomClient is already initialized");
@@ -107,4 +148,5 @@ export class CustomClient extends Client {
   }
 }
 
+// Initialize the bot client.
 CustomClient.initialize();

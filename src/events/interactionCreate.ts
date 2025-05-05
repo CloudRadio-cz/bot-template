@@ -2,8 +2,18 @@ import { Logger } from "@/utils/Logger.ts";
 import { ArgsOf, Discord, On } from "discordx";
 import { CustomClient } from "@/client.ts";
 
+/**
+ * Handles Discord interaction events.
+ * Processes commands and logs command executions.
+ */
 @Discord()
 export class InteractionCreate {
+  /**
+   * Event handler for the 'interactionCreate' event.
+   * Executes the interaction and logs command details if it's a chat input command.
+   * @param {ArgsOf<"interactionCreate">} [interaction] - The interaction event data
+   * @param {CustomClient} client - The Discord client instance
+   */
   @On({ event: "interactionCreate" })
   onInteractionCreate(
     [interaction]: ArgsOf<"interactionCreate">,

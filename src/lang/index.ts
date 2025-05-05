@@ -2,13 +2,36 @@ import chalk from "chalk";
 import { Logger } from "@/utils/Logger.ts";
 import { dirname, fromFileUrl, join, toFileUrl } from "@std/path";
 
+/**
+ * Type definition for a map of translations within a category.
+ * @typedef {Record<string, string>} TranslationMap
+ */
 type TranslationMap = Record<string, Record<string, string>>;
 
+/**
+ * Global storage for all loaded translations.
+ * @type {Record<string, TranslationMap>}
+ */
 const translations: Record<string, TranslationMap> = {};
+
+/**
+ * Default fallback language code.
+ * @type {string}
+ */
 const fallbackLang = "en";
 
+/**
+ * List of available language codes.
+ * @type {string[]}
+ */
 const availableLangs: string[] = [];
 
+/**
+ * Loads all language files from the language directory.
+ * Scans for JSON files in language-specific subdirectories and loads them as translation modules.
+ * @throws {Error} If language system initialization fails
+ * @returns {Promise<void>}
+ */
 export async function loadLocales(): Promise<void> {
   try {
     const currentFilePath = fromFileUrl(import.meta.url);
@@ -75,6 +98,14 @@ export async function loadLocales(): Promise<void> {
   }
 }
 
+/**
+ * Translates a key to the specified language, with variable interpolation.
+ * Falls back to the default language if translation is not found.
+ * @param {string} key - Translation key in format "category.key"
+ * @param {string} [lang=fallbackLang] - Target language code
+ * @param {Record<string, string | number>} [vars] - Variables to interpolate in the translation
+ * @returns {string} Translated text with interpolated variables
+ */
 export function t(
   key: string,
   lang = fallbackLang,
@@ -101,6 +132,10 @@ export function t(
   );
 }
 
+/**
+ * Returns a list of all available language codes.
+ * @returns {string[]} Array of language codes
+ */
 export function getAvailableLanguages(): string[] {
   return [...availableLangs];
 }
