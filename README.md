@@ -1,23 +1,89 @@
-# Discord Bot Template with SurrealDB
+# 🚀 Modern Discord Bot Template
 
-A modern Discord bot template built with Deno, Discord.js, and SurrealDB
-integration. This template provides a solid foundation for creating Discord bots
-with database persistence.
+A production-ready Discord bot template built with Deno, Discord.js, and SurrealDB. This template provides a robust foundation for creating scalable Discord bots with database persistence, internationalization, and modern development practices.
 
-## Features
+## ✨ Key Features
 
-- 🚀 Built with Deno for enhanced security and performance
-- 💾 SurrealDB integration for flexible data storage
-- 🔄 Discord Hybrid Sharding for scalability
-- 🧩 Command handler using decorators with discordx
-- 🌐 Built-in translation system with support for multiple languages
-- 📝 TypeScript support for better code quality
-- 🎨 Beautiful console logging with chalk
+- 🛡️ **Built with Deno** - Enhanced security and performance with modern JavaScript runtime
+- 💾 **SurrealDB Integration** - Flexible and powerful database for data persistence
+- 🔄 **Discord Hybrid Sharding** - Built-in support for scaling across multiple servers
+- 🧩 **Command Handler** - Decorator-based command system using discordx
+- 🌐 **Internationalization** - Built-in translation system with multi-language support
+- 📝 **TypeScript** - Full TypeScript support for better code quality and developer experience
+- 🎨 **Beautiful Logging** - Colorful and informative console logging with chalk
+- 🐳 **Docker Ready** - Containerized deployment with Docker and Docker Compose
+- 🔧 **Development Tools** - Hot reloading, debugging, and development utilities
+- 📚 **Comprehensive Docs** - Detailed documentation and deployment guides
+
+## 🎯 Use Cases
+
+- Community management bots
+- Moderation and administration tools
+- Game servers and community features
+- Custom command systems
+- Multi-language community support
+- Data-driven Discord applications
+
+## 📑 Navigation
+
+- [✨ Key Features](#-key-features)
+- [🎯 Use Cases](#-use-cases)
+- [📋 To-Do](#-to-do)
+- [🔧 Prerequisites](#-prerequisites)
+- [🚀 Installation](#-installation)
+- [💾 Setting up SurrealDB](#-setting-up-surrealdb)
+- [🤖 Running the Bot](#-running-the-bot)
+- [🐳 Deployment Guides](#-deployment-guides)
+  - [Railway](#-deploying-to-railway)
+  - [DigitalOcean](#-deploying-to-digitalocean)
+  - [Oracle Cloud Free Tier](#-deploying-to-oracle-cloud-free-tier)
+  - [Docker](#-deploying-with-docker)
+  - [Docker Compose](#-using-docker-compose)
+- [📁 Project Structure](#-project-structure)
+- [⚙️ Creating Commands](#-creating-commands)
+- [🌐 Translation System](#-translation-system)
+- [📊 Using SurrealDB in Commands](#-using-surrealdb-in-commands)
+- [🔒 Deployment Best Practices](#-deployment-best-practices)
+  - [Security](#-security)
+  - [Monitoring and Maintenance](#-monitoring-and-maintenance)
+  - [Database Management](#-database-management)
+  - [Development Workflow](#-development-workflow)
+  - [Disaster Recovery](#-disaster-recovery)
+  - [Cost Management](#-cost-management)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
+
+## 📋 To-Do
+
+### ✅ Completed
+- [x] Add translation system
+- [x] Improve logging system
+- [x] Add comments to the code for better understanding and maintenance
+- [x] Create deployment guides for popular hosting platforms
+
+### 🚀 Planned Features
+- [ ] Add more example commands and use cases
+- [ ] Implement command cooldowns
+
+### 📚 Documentation
+- [ ] Create contribution guidelines
+- [ ] Add troubleshooting guide
+
+### 🔧 Infrastructure
+- [ ] Add health check endpoints
+- [ ] Add database migration system
+- [ ] Add database schemas to make SurrealDB type-safe
+    > Note: This will require creating a SurrealDB.js wrapper
+- [ ] Add caching layer
+
+### 🌐 Internationalization
+- [ ] Add more language templates
+- [ ] Add automatic language detection
 
 ## Prerequisites
 
 - [Deno](https://deno.land/) (v2.0.0 or higher)
-- [SurrealDB](https://surrealdb.com/) (v1.0.0 or higher)
+- [SurrealDB](https://surrealdb.com/) (v2.0.0 or higher)
 - Discord Bot Token
   ([Discord Developer Portal](https://discord.com/developers/applications))
 
@@ -25,7 +91,7 @@ with database persistence.
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/bot-template.git
+   git clone https://github.com/CloudRadio-cz/bot-template.git
    cd bot-template
    ```
 
@@ -57,7 +123,7 @@ Check the official SurrealDB documentation for Docker installation instructions:
 Start SurrealDB with the following command:
 
 ```bash
-surrealdb start --user root --pass root --bind 127.0.0.1:3000 rocksdb:main.db
+surreal start --user root --pass root --bind 127.0.0.1:3000 rocksdb:main.db
 ```
 
 By default, SurrealDB will run on `http://127.0.0.1:3000/rpc`.
@@ -102,6 +168,178 @@ deno task start
 ```
 
 This will start the bot without hot reloading.
+
+## Deployment Guides
+
+### Deploying to Railway
+
+[Railway](https://railway.app/) is a modern platform that makes it easy to deploy and scale your Discord bot.
+
+1. Create a Railway account and install the Railway CLI:
+   ```bash
+   npm i -g @railway/cli
+   ```
+
+2. Login to Railway:
+   ```bash
+   railway login
+   ```
+
+3. Initialize your project:
+   ```bash
+   railway init
+   ```
+
+4. Add your environment variables in the Railway dashboard and share them with the service:
+   - `BOT_TOKEN`
+   - `SURREALDB_URL`
+   - `SURREALDB_NAMESPACE`
+   - `SURREALDB_DATABASE`
+   - `SURREALDB_USERNAME`
+   - `SURREALDB_PASSWORD`
+
+5. Deploy your bot:
+   ```bash
+   railway up
+   ```
+
+### Deploying to DigitalOcean
+
+[DigitalOcean](https://www.digitalocean.com/) provides virtual private servers (Droplets) for hosting your bot.
+
+1. Create a DigitalOcean account and create a new Droplet:
+   - Choose Ubuntu as the operating system
+   - Select a plan based on your needs (512MB RAM minimum recommended)
+   - Choose a datacenter region close to your target users
+
+2. Connect to your Droplet via SSH:
+   ```bash
+   ssh root@your_droplet_ip
+   ```
+
+3. Install Deno:
+   ```bash
+   curl -fsSL https://deno.land/install.sh | sh
+   ```
+
+4. Install SurrealDB:
+   ```bash
+   curl -sSf https://install.surrealdb.com | sh
+   ```
+
+5. Clone the repository:
+   ```bash
+   git clone https://github.com/CloudRadio-cz/bot-template.git
+   cd bot-template
+   ```
+
+6. Create and configure your `.env` file:
+   ```bash
+   cp .env.example .env
+   nano .env  # Edit with your configuration
+   ```
+
+7. Start SurrealDB:
+   ```bash
+   surreal start --user root --pass root --bind 0.0.0.0:3000 rocksdb:main.db
+   ```
+
+8. Start your bot:
+   ```bash
+   deno task start
+   ```
+
+9. (Optional) Set up PM2 for process management:
+   ```bash
+   npm install -g pm2
+   pm2 start "deno task start" --name yours-bot-name
+   pm2 save
+   pm2 startup
+   ```
+
+### Deploying to Oracle Cloud Free Tier
+
+[Oracle Cloud Free Tier](https://www.oracle.com/cloud/free/) offers a generous free tier for hosting your bot.
+
+1. Create an Oracle Cloud account and create a new VM instance:
+   - Choose Ubuntu as the operating system
+   - Select the Always Free VM.Standard.E2.1.Micro shape
+   - Generate an SSH key pair for access
+
+2. Connect to your instance via SSH:
+   ```bash
+   ssh ubuntu@your_instance_ip
+   ```
+
+3. Follow the same setup steps as DigitalOcean (steps 3-9 above)
+
+### Deploying with Docker
+
+This template includes a Dockerfile for containerized deployment. Docker provides a consistent environment and makes deployment easier across different platforms.
+
+1. Install Docker:
+   ```bash
+   # For Ubuntu/Debian
+   curl -fsSL https://get.docker.com | sh
+   
+   # For Windows
+   # Download and install Docker Desktop from https://www.docker.com/products/docker-desktop
+   ```
+
+2. Build the Docker image:
+   ```bash
+   docker build -t discord-bot .
+   ```
+
+3. Start the bot container:
+   ```bash
+   docker run -d \
+     --name discord-bot \
+     --env-file .env \
+     discord-bot
+   ```
+
+4. View logs:
+   ```bash
+   docker logs -f discord-bot
+   ```
+
+5. Stop the containers:
+   ```bash
+   docker stop discord-bot surrealdb
+   ```
+
+### Using Docker Compose
+
+For a more convenient way to manage both the bot and SurrealDB, you can use included `docker-compose.yml`. This approach makes it easier to manage the entire stack and ensures proper service dependencies.
+
+1. Start the entire stack:
+   ```bash
+   docker-compose up -d
+   ```
+
+2. View logs for all services:
+   ```bash
+   docker-compose logs -f
+   ```
+
+3. View logs for a specific service:
+   ```bash
+   docker-compose logs -f bot    # For bot logs
+   docker-compose logs -f surrealdb  # For database logs
+   ```
+
+6. Stop the stack:
+   ```bash
+   docker-compose down
+   ```
+
+7. Rebuild and restart after changes:
+   ```bash
+   docker-compose down
+   docker-compose build --no-cache
+   docker-compose up -d
+   ```
 
 ## Project Structure
 
@@ -342,14 +580,107 @@ export class UserCommand {
 For more information on using SurrealDB SDK, refer to the official
 [SurrealDB JavaScript SDK Documentation](https://surrealdb.com/docs/sdk/javascript)
 
-## To-Do
+## Deployment Best Practices
 
-- [x] Add translation system
-- [x] Improve logging system
-- [ ] Add comments to the code for better understanding of the code and
-      maintenance
-- [ ] Add more example commands and use cases
-- [ ] Create deployment guides for popular hosting platforms
+### Security
+
+1. **Environment Variables**:
+   - Never commit `.env` files to version control
+   - Use strong, unique passwords for all services
+   - Rotate credentials regularly
+   - Use different credentials for development and production
+   - Consider using a secrets manager for production
+
+2. **Network Security**:
+   - Use firewalls to restrict access
+   - Only expose necessary ports
+   - Use internal networks for service communication
+   - Implement rate limiting where possible
+   - Keep all dependencies updated
+
+3. **Bot Security**:
+   - Use the minimum required Discord intents
+   - Implement proper error handling
+   - Validate all user inputs
+   - Use proper permission checks
+   - Keep the bot token secure
+
+### Monitoring and Maintenance
+
+1. **Performance**:
+   - Monitor resource usage (CPU, memory, disk)
+   - Set up performance metrics
+   - Implement caching where appropriate
+   - Optimize database queries
+
+2. **Uptime**:
+   - Set up uptime monitoring
+   - Implement automatic restarts
+   - Use health checks
+   - Have a backup deployment ready
+   - Document recovery procedures
+
+### Database Management
+
+1. **Backups**:
+   - Implement regular automated backups
+   - Test backup restoration
+   - Store backups in multiple locations
+   - Document backup procedures
+   - Set up backup monitoring
+
+2. **Data Integrity**:
+   - Validate data before storage
+   - Implement proper error handling
+   - Monitor database health
+   - Regular maintenance tasks
+
+### Development Workflow
+
+1. **Version Control**:
+   - Use semantic versioning
+   - Maintain a changelog
+   - Use feature branches
+   - Implement proper code review
+   - Keep documentation updated
+
+2. **Deployment Process**:
+   - Use CI/CD pipelines
+   - Implement blue-green deployments
+   - Have rollback procedures
+   - Test in staging first
+   - Document deployment steps
+
+### Disaster Recovery
+
+1. **Backup Strategy**:
+   - Regular database backups
+   - Configuration backups
+   - Code repository backups
+   - Document recovery procedures
+   - Test recovery regularly
+
+2. **Incident Response**:
+   - Have an incident response plan
+   - Document common issues
+   - Maintain contact lists
+   - Set up monitoring alerts
+   - Regular incident reviews
+
+### Cost Management
+
+1. **Resource Optimization**:
+   - Monitor resource usage
+   - Optimize hosting costs
+   - Use appropriate instance sizes
+   - Regular cost reviews
+
+2. **Budget Planning**:
+   - Plan for growth
+   - Monitor costs
+   - Set up budget alerts
+   - Regular cost reviews
+   - Optimize resource allocation
 
 ## Contributing
 
