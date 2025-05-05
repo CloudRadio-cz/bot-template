@@ -6,13 +6,14 @@
   },
   "imports": {
     "@/": "./src/",
+    "@discordjs/builders": "npm:@discordjs/builders@^1.11.2",
     "@discordx/importer": "npm:@discordx/importer@^1.3.1",
     "@std/path": "jsr:@std/path@^1.0.8",
     "@surrealdb/surrealdb": "jsr:@surrealdb/surrealdb@^1.3.1",
     "chalk": "npm:chalk@^5.4.1",
     "discord-hybrid-sharding": "npm:discord-hybrid-sharding@^2.2.6",
-    "discord.js": "npm:discord.js@^14.18.0",
-    "discordx": "npm:discordx@^11.12.2"
+    "discord.js": "npm:discord.js@^14.19.3",
+    "discordx": "npm:discordx@^11.12.3"
   },
   "compilerOptions": {
     "experimentalDecorators": true,
