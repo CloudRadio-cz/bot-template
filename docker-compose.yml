@@ -1,30 +1,30 @@
-version: '3.8'
+version: "3.8"
 
-   services:
-     bot:
-       build: .
-       container_name: discord-bot
-       env_file: .env
-       depends_on:
-         - surrealdb
-       restart: unless-stopped
-       networks:
-         - bot-network
+services:
+  bot:
+    build: .
+    container_name: discord-bot
+    env_file: .env
+    depends_on:
+      - surrealdb
+    restart: unless-stopped
+    networks:
+      - bot-network
 
-     surrealdb:
-       image: surrealdb/surrealdb:latest
-       container_name: surrealdb
-       command: start --user root --pass root --bind 0.0.0.0:3000 rocksdb:data.db
-       volumes:
-         - surrealdb-data:/data
-       ports:
-         - "3000:3000"
-       networks:
-         - bot-network
+  surrealdb:
+    image: surrealdb/surrealdb:latest
+    container_name: surrealdb
+    command: start --user root --pass root --bind 0.0.0.0:3000 rocksdb:data.db
+    volumes:
+      - surrealdb-data:/data
+    ports:
+      - "3000:3000"
+    networks:
+      - bot-network
 
-   networks:
-     bot-network:
-       driver: bridge
+networks:
+  bot-network:
+    driver: bridge
 
-   volumes:
-     surrealdb-data:
+volumes:
+  surrealdb-data:

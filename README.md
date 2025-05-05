@@ -1,15 +1,23 @@
 # 🚀 Modern Discord Bot Template
 
-A production-ready Discord bot template built with Deno, Discord.js, and SurrealDB. This template provides a robust foundation for creating scalable Discord bots with database persistence, internationalization, and modern development practices.
+A production-ready Discord bot template built with Deno, Discord.js, and
+SurrealDB. This template provides a robust foundation for creating scalable
+Discord bots with database persistence, internationalization, and modern
+development practices.
 
 ## ✨ Key Features
 
-- 🛡️ **Built with Deno** - Enhanced security and performance with modern JavaScript runtime
-- 💾 **SurrealDB Integration** - Flexible and powerful database for data persistence
-- 🔄 **Discord Hybrid Sharding** - Built-in support for scaling across multiple servers
+- 🛡️ **Built with Deno** - Enhanced security and performance with modern
+  JavaScript runtime
+- 💾 **SurrealDB Integration** - Flexible and powerful database for data
+  persistence
+- 🔄 **Discord Hybrid Sharding** - Built-in support for scaling across multiple
+  servers
 - 🧩 **Command Handler** - Decorator-based command system using discordx
-- 🌐 **Internationalization** - Built-in translation system with multi-language support
-- 📝 **TypeScript** - Full TypeScript support for better code quality and developer experience
+- 🌐 **Internationalization** - Built-in translation system with multi-language
+  support
+- 📝 **TypeScript** - Full TypeScript support for better code quality and
+  developer experience
 - 🎨 **Beautiful Logging** - Colorful and informative console logging with chalk
 - 🐳 **Docker Ready** - Containerized deployment with Docker and Docker Compose
 - 🔧 **Development Tools** - Hot reloading, debugging, and development utilities
@@ -56,27 +64,32 @@ A production-ready Discord bot template built with Deno, Discord.js, and Surreal
 ## 📋 To-Do
 
 ### ✅ Completed
+
 - [x] Add translation system
 - [x] Improve logging system
 - [x] Add comments to the code for better understanding and maintenance
 - [x] Create deployment guides for popular hosting platforms
 
 ### 🚀 Planned Features
+
 - [ ] Add more example commands and use cases
 - [ ] Implement command cooldowns
 
 ### 📚 Documentation
+
 - [ ] Create contribution guidelines
 - [ ] Add troubleshooting guide
 
 ### 🔧 Infrastructure
+
 - [ ] Add health check endpoints
 - [ ] Add database migration system
 - [ ] Add database schemas to make SurrealDB type-safe
-    > Note: This will require creating a SurrealDB.js wrapper
+  > Note: This will require creating a SurrealDB.js wrapper
 - [ ] Add caching layer
 
 ### 🌐 Internationalization
+
 - [ ] Add more language templates
 - [ ] Add automatic language detection
 
@@ -173,7 +186,8 @@ This will start the bot without hot reloading.
 
 ### Deploying to Railway
 
-[Railway](https://railway.app/) is a modern platform that makes it easy to deploy and scale your Discord bot.
+[Railway](https://railway.app/) is a modern platform that makes it easy to
+deploy and scale your Discord bot.
 
 1. Create a Railway account and install the Railway CLI:
    ```bash
@@ -190,7 +204,8 @@ This will start the bot without hot reloading.
    railway init
    ```
 
-4. Add your environment variables in the Railway dashboard and share them with the service:
+4. Add your environment variables in the Railway dashboard and share them with
+   the service:
    - `BOT_TOKEN`
    - `SURREALDB_URL`
    - `SURREALDB_NAMESPACE`
@@ -205,7 +220,8 @@ This will start the bot without hot reloading.
 
 ### Deploying to DigitalOcean
 
-[DigitalOcean](https://www.digitalocean.com/) provides virtual private servers (Droplets) for hosting your bot.
+[DigitalOcean](https://www.digitalocean.com/) provides virtual private servers
+(Droplets) for hosting your bot.
 
 1. Create a DigitalOcean account and create a new Droplet:
    - Choose Ubuntu as the operating system
@@ -259,7 +275,8 @@ This will start the bot without hot reloading.
 
 ### Deploying to Oracle Cloud Free Tier
 
-[Oracle Cloud Free Tier](https://www.oracle.com/cloud/free/) offers a generous free tier for hosting your bot.
+[Oracle Cloud Free Tier](https://www.oracle.com/cloud/free/) offers a generous
+free tier for hosting your bot.
 
 1. Create an Oracle Cloud account and create a new VM instance:
    - Choose Ubuntu as the operating system
@@ -275,13 +292,15 @@ This will start the bot without hot reloading.
 
 ### Deploying with Docker
 
-This template includes a Dockerfile for containerized deployment. Docker provides a consistent environment and makes deployment easier across different platforms.
+This template includes a Dockerfile for containerized deployment. Docker
+provides a consistent environment and makes deployment easier across different
+platforms.
 
 1. Install Docker:
    ```bash
    # For Ubuntu/Debian
    curl -fsSL https://get.docker.com | sh
-   
+
    # For Windows
    # Download and install Docker Desktop from https://www.docker.com/products/docker-desktop
    ```
@@ -311,7 +330,9 @@ This template includes a Dockerfile for containerized deployment. Docker provide
 
 ### Using Docker Compose
 
-For a more convenient way to manage both the bot and SurrealDB, you can use included `docker-compose.yml`. This approach makes it easier to manage the entire stack and ensures proper service dependencies.
+For a more convenient way to manage both the bot and SurrealDB, you can use
+included `docker-compose.yml`. This approach makes it easier to manage the
+entire stack and ensures proper service dependencies.
 
 1. Start the entire stack:
    ```bash
@@ -329,12 +350,12 @@ For a more convenient way to manage both the bot and SurrealDB, you can use incl
    docker-compose logs -f surrealdb  # For database logs
    ```
 
-6. Stop the stack:
+4. Stop the stack:
    ```bash
    docker-compose down
    ```
 
-7. Rebuild and restart after changes:
+5. Rebuild and restart after changes:
    ```bash
    docker-compose down
    docker-compose build --no-cache
