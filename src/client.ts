@@ -71,7 +71,6 @@ export class CustomClient extends Client {
    * @returns {Promise<boolean>} True if connection is successful, false otherwise.
    */
   public async connectDB(): Promise<boolean> {
-
     try {
       await this.db.connect("namespace");
 

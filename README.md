@@ -570,7 +570,7 @@ You can access the SurrealDB instance through the client object:
 import { Discord, Slash } from "discordx";
 import { CommandInteraction } from "discord.js";
 import { CustomClient } from "@/client.ts";
-import { User } from "@schema/User"
+import { User } from "@schema/User";
 
 @Discord()
 export class UserCommand {
