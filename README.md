@@ -69,6 +69,8 @@ development practices.
 - [x] Improve logging system
 - [x] Add comments to the code for better understanding and maintenance
 - [x] Create deployment guides for popular hosting platforms
+- [x] Add database schemas to make SurrealDB type-safe
+  > Implemented using [SurrealORM](https://github.com/SurrealORM/orm)
 
 ### 🚀 Planned Features
 
@@ -84,8 +86,6 @@ development practices.
 
 - [ ] Add health check endpoints
 - [ ] Add database migration system
-- [ ] Add database schemas to make SurrealDB type-safe
-  > Note: This will require creating a SurrealDB.js wrapper
 - [ ] Add caching layer
 
 ### 🌐 Internationalization

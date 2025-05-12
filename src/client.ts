@@ -4,7 +4,7 @@ import { IntentsBitField } from "discord.js";
 import { ClusterClient, getInfo } from "discord-hybrid-sharding";
 import chalk from "chalk";
 import { Client, ClientOptions } from "discordx";
-import { Surreal } from "@surrealdb/surrealdb";
+import { SurrealORM } from "@surrealorm/orm";
 import { loadLocales } from "@/lang/index.ts";
 
 /**
@@ -25,9 +25,9 @@ export class CustomClient extends Client {
   public cluster?: ClusterClient<CustomClient>;
   /**
    * SurrealDB client instance.
-   * @type {Surreal}
+   * @type {SurrealORM}
    */
-  public db: Surreal;
+  public db: SurrealORM;
 
   /**
    * Private constructor for singleton pattern.
@@ -35,7 +35,13 @@ export class CustomClient extends Client {
    */
   private constructor(options: ClientOptions) {
     super(options);
-    this.db = new Surreal();
+    this.db = new SurrealORM({
+      url: Deno.env.get("SURREALDB_URL") as string,
+      namespace: Deno.env.get("SURREALDB_NAMESPACE") as string,
+      database: Deno.env.get("SURREALDB_DATABASE") as string,
+      username: Deno.env.get("SURREALDB_USERNAME") as string,
+      password: Deno.env.get("SURREALDB_PASSWORD") as string,
+    });
   }
 
   /**
@@ -52,7 +58,7 @@ export class CustomClient extends Client {
    */
   public async isDBAlive(): Promise<boolean> {
     try {
-      await this.db.query("RETURN true");
+      await this.db.raw("RETURN true");
       return true;
     } catch (_e) {
       Logger.error("Database health check failed");
@@ -65,32 +71,15 @@ export class CustomClient extends Client {
    * @returns {Promise<boolean>} True if connection is successful, false otherwise.
    */
   public async connectDB(): Promise<boolean> {
-    const {
-      SURREALDB_URL,
-      SURREALDB_NAMESPACE,
-      SURREALDB_DATABASE,
-      SURREALDB_USERNAME,
-      SURREALDB_PASSWORD,
-    } = Deno.env.toObject();
 
     try {
-      await this.db.connect(SURREALDB_URL, {
-        namespace: SURREALDB_NAMESPACE,
-      });
-      await this.db.signin({
-        username: SURREALDB_USERNAME,
-        password: SURREALDB_PASSWORD,
-        namespace: SURREALDB_NAMESPACE,
-      });
-      await this.db.use({
-        database: SURREALDB_DATABASE,
-      });
+      await this.db.connect("namespace");
 
       Logger.success(
         `Connected to SurrealDB!\n${chalk.gray("\ud83d\udcc1 Namespace")}: ${
-          chalk.yellow(SURREALDB_NAMESPACE)
+          chalk.yellow(Deno.env.get("SURREALDB_NAMESPACE") as string)
         }\n${chalk.gray("\ud83d\udce6 Database")}: ${
-          chalk.yellow(SURREALDB_DATABASE)
+          chalk.yellow(Deno.env.get("SURREALDB_DATABASE") as string)
         }`,
       );
       return true;
