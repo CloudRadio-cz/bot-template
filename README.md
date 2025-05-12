@@ -570,12 +570,7 @@ You can access the SurrealDB instance through the client object:
 import { Discord, Slash } from "discordx";
 import { CommandInteraction } from "discord.js";
 import { CustomClient } from "@/client.ts";
-
-interface User {
-  username: string;
-  money: number;
-  [key: string]: unknown;
-}
+import { User } from "@schema/User"
 
 @Discord()
 export class UserCommand {
@@ -587,19 +582,18 @@ export class UserCommand {
     }
 
     // Create a new user
-    const user: User = {
-      username: "example",
-      money: 5,
-    };
+    const user = new User();
+    user.username = "username";
+    user.money = 5;
 
-    const result = await client.db.create("user", user);
+    const result = await client.db.create(user);
     await interaction.reply(`User created: ${JSON.stringify(result)}`);
   }
 }
 ```
 
-For more information on using SurrealDB SDK, refer to the official
-[SurrealDB JavaScript SDK Documentation](https://surrealdb.com/docs/sdk/javascript)
+For more information on using SurrealDB with SurrealORM, refer to the
+[SurrealORM Repository](https://github.com/SurrealORM/orm)
 
 ## Deployment Best Practices
 
