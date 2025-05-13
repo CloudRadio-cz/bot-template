@@ -1,5 +1,5 @@
 import { Discord, Slash } from "discordx";
-import { CommandInteraction } from "discord.js";
+import type { CommandInteraction } from "discord.js";
 import { t } from "@/lang/index.ts";
 
 /**
@@ -8,14 +8,14 @@ import { t } from "@/lang/index.ts";
  */
 @Discord()
 export class Ping {
-  /**
-   * Handles the /ping slash command.
-   * Responds with a localized message using the Czech language.
-   * @param {CommandInteraction} interaction - The command interaction
-   * @returns {Promise<void>}
-   */
-  @Slash({ name: "ping", description: "Pong!" })
-  ping(interaction: CommandInteraction) {
-    return interaction.reply(t("ping.reply", "cs"));
-  }
+	/**
+	 * Handles the /ping slash command.
+	 * Responds with a localized message using the Czech language.
+	 * @param {CommandInteraction} interaction - The command interaction
+	 * @returns {Promise<void>}
+	 */
+	@Slash({ name: "ping", description: "Pong!" })
+	ping(interaction: CommandInteraction) {
+		return interaction.reply(t("ping.reply", "cs"));
+	}
 }
