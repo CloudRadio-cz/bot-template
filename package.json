@@ -1,0 +1,31 @@
+{
+  "name": "bot-template",
+  "module": "index.ts",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "dev": "bun run --watch src/main.ts",
+    "start": "BUILD_ENV=production bun run db:generate && bun run src/main.ts",
+    "db:generate": "bunx prisma generate",
+    "db:migrate": "bunx prisma migrate dev",
+    "db:studio": "bunx prisma studio",
+    "lint": "bunx biome lint .",
+    "lint:fix": "bunx biome lint --write .",
+    "format": "bunx biome format .",
+    "format:fix": "bunx biome format --write ."
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.2.2",
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.15.0",
+    "@slipher/redis-adapter": "^0.0.5",
+    "chalk": "^5.6.0",
+    "prisma": "^6.15.0",
+    "seyfert": "^3.2.6"
+  }
+}
