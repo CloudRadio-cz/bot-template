@@ -16,7 +16,8 @@ A production-ready Discord bot template built with Bun, Seyfert, and Prisma ORM.
 
 ## 🤖 Bots using this template
 - CloudRadio - An online radio stations streaming bot
-> Currently under maintenance, will add the link here when it is re-released
+> Invite: [Link](https://cloudradio.cz/invite)
+> Website: [Link](https://cloudradio.cz)
 
 If you want your bot to be on this list, make a request, edit the README, add your bot to the list and open a pull request.
 
